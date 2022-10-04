@@ -122,7 +122,7 @@ Adding elements to lists
 For example merge three object lists:
 
     echo '[ {"a":1}, {"b":2} ]' | \
-    jq --argjson input1 '{ "c":3 }' \
+    jq --argjson input1 '[ { "c":3 } ]' \
 	   --argjson input2 '[ { "d":4 }, { "e": 5} ]' \
 	   '. = $input1 + . +  $input2'
 
@@ -188,11 +188,20 @@ Quick easy way to url encode something
  
     date | jq -sRr @uri
 
-### String Format / Concat
+### String Concat
 
-There is no printf like function, just concatenation like this:
+Concatenation like this:
 
     echo '{ "object" : { "name": "banana", "color": "yellow" }}' |\
     jq -r '.object | (.name)+" is "+(.color)'
 
 will print `banana is yellow`.
+
+### String Interpolation
+
+Or using Interpolation:
+
+    echo '{ "object" : { "name": "banana", "color": "yellow" }}' |\
+    jq -r '.object | "\(.name) is \(.color)"'
+
+will *also* print `banana is yellow`.
